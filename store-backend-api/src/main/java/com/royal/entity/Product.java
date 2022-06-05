@@ -10,7 +10,10 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+*
+*@author Isaachome
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +23,7 @@ public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="prod_id",nullable = false,updatable = false)
+	@Column(name="prod_id")
 	private long id;
 	@Column(name="prod_name",nullable = false)
 	private String name;
