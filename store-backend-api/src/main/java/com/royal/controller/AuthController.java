@@ -26,11 +26,15 @@ import com.royal.repo.RoleRepo;
 import com.royal.repo.UserRepo;
 import com.royal.security.jwt.JwtTokenProvider;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  *
  *@author Isaachome
  */
 
+@Api(value = "Auth Controller exposes for sign up and sign in REST Apis")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -47,6 +51,7 @@ public class AuthController {
 	    @Autowired
 	    private PasswordEncoder passwordEncoder;
 
+	    @ApiOperation(value = "REST API to login or signin a user to the application.")
 	    @PostMapping("/signin")
 	    public ResponseEntity<AuthResponse> authenticateUser(
 	    	@Valid	@RequestBody SignInDto loginDto){
@@ -58,6 +63,8 @@ public class AuthController {
 	        return   ResponseEntity.ok(new AuthResponse(token));
 	    }
 
+
+	    @ApiOperation(value = "REST API to register or signup a user to the application.")
 	    @PostMapping("/signup")
 	    public ResponseEntity<?> registerUser(
 	    	@Valid	@RequestBody SignUpDto signUpDto){

@@ -21,12 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.royal.entity.Product;
 import com.royal.payload.DeleteRecordsDTO;
 import com.royal.service.ProductService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  *@author Isaachome
  */
+
+
+@Api(value = "CRUD Rest APIs for Product resources")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController  {
@@ -37,23 +45,30 @@ public class ProductController  {
 	@Autowired
 	private ProductService service;
 
+
+	@ApiOperation(value = "Get  All Products Rest API")
 	@GetMapping
 	public List<Product> getAll() {
 		return service.getAllProducts();
 	}
 
+	@ApiOperation(value = "Create Product Rest API")
 	@PostMapping
 	public ResponseEntity<Product> create(@RequestBody Product product) {
 		System.out.println(product.getName());
 		return new ResponseEntity<>(service.createProduct(product),HttpStatus.CREATED);
 	}
 
+
+	@ApiOperation(value = "Update Product by ID Rest API")
 	@PutMapping("/{id}")
 	public ResponseEntity<Product> updateById(@RequestBody Product product,@PathVariable(name="id") long id) {
 		Product productResponse = service.updateProduct(id, product);
 		return new ResponseEntity<>(productResponse,HttpStatus.OK);
 	}
 
+
+	@ApiOperation(value = "Upload image for a Product by ID Rest API")
 	@PostMapping("/{id}/image/upload")
 	public ResponseEntity<FileResponse> uploadImageForProduct(
 			@PathVariable("id")long id,
@@ -62,11 +77,16 @@ public class ProductController  {
 		return new ResponseEntity<>(fileResponse,HttpStatus.CREATED);
 	}
 
+
+	@ApiOperation(value = "Get Product by ID Rest API")
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getById(@PathVariable(name="id")long id) {
 		return ResponseEntity.ok(service.getProductById(id));
 	}
+	
 
+
+	@ApiOperation(value = "DELETE Product by ID Rest API")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable(name="id")long id) {
 		service.deleteProduct(id);
@@ -75,6 +95,8 @@ public class ProductController  {
 
 	
 
+
+	@ApiOperation(value = "Delete many Product by IDS Rest API")
     @PostMapping("/deleted-records")
     public ResponseEntity<String> delete(@RequestBody DeleteRecordsDTO ids) {
         service.deleteByIdIn(ids.getIds());
