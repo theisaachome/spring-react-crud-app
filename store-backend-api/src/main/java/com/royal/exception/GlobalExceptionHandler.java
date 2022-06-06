@@ -24,7 +24,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			ErrorDetails errorDetails = new ErrorDetails(
 					new Date(),
 					exception.getMessage(), request.getDescription(false));
-			return new ResponseEntity<>(errorDetails,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<ErrorDetails>(errorDetails,HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(AppAPIException.class)

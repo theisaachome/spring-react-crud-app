@@ -28,8 +28,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProductById(Long id) {
-		Product product = repo.findById(id).get();
-		return product;
+		return repo.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("Product", "ID", id));
 	}
 	
 	@Override
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public void deleteProduct(Long id) {
-		Product product = repo.findById(id).get();
+		Product product = repo.findById(id).orElseThrow(()-> new ResourceNotFoundException("", "", id));
 		repo.delete(product);
 	}
 
