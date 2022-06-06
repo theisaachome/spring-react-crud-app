@@ -27,6 +27,7 @@ public class ProductController  {
 
 	@Autowired
 	private ProductService service;
+
 	@GetMapping
 	public List<Product> getAll() {
 		return service.getAllProducts();
@@ -43,6 +44,7 @@ public class ProductController  {
 		Product productResponse = service.updateProduct(id, product);
 		return new ResponseEntity<>(productResponse,HttpStatus.OK);
 	}
+
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getById(@PathVariable(name="id")long id) {

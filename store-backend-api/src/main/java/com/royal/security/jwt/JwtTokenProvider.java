@@ -42,7 +42,7 @@ public class JwtTokenProvider {
 				.setIssuer("Royal Software")
 				.setIssuedAt(new Date())
 				.setExpiration(expireAt.getTime())
-				.signWith(SignatureAlgorithm.ES512, jwtSecret)
+				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
 	// get user name from token

@@ -3,6 +3,7 @@ package com.royal.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.royal.security.jwt.JwtAuthenticationEntryPoint;
 import com.royal.security.jwt.JwtAuthenticationFilter;
@@ -22,7 +24,7 @@ import com.royal.security.jwt.JwtAuthenticationFilter;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true) // method level security
+//@EnableGlobalMethodSecurity(prePostEnabled = true) // method level security
 public class APISecurityConfig {
 
 	@Autowired
@@ -58,7 +60,8 @@ public class APISecurityConfig {
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.authorizeHttpRequests((authorize) -> {
-			authorize.antMatchers("/api/auth/**").permitAll()
+			authorize
+			.antMatchers(HttpMethod.GET,"/api/products").permitAll()
 			.antMatchers("/api/auth/**").permitAll()
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-ui/**").permitAll()
@@ -67,6 +70,9 @@ public class APISecurityConfig {
             .antMatchers("/webjars/**").permitAll()
 			.anyRequest().authenticated();
 		});
+		 
+		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+	       
 		return http.build();
 	}
 
